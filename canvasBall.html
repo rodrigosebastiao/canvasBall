@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas Ball</title>
+</head>
+<body>
+
+    <canvas id="canvas" width="500" height="400"></canvas>
+    
+    <script>
+    var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext('2d');
+        var speed = 6;
+        var t = 1;
+        var y = 400;
+
+        var draw = function () {
+            /***********
+            *background*
+            ***********/
+            ctx.beginPath();
+
+            ctx.fillStyle = 'rgba(150, 250, 255,0.8)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height * 1 / 2);
+            ctx.fill();
+
+            ctx.fillStyle = 'rgba(255, 230, 200,1)';
+            ctx.fillRect(0, canvas.height * 1 / 2, canvas.width, canvas.height * 1 / 2);
+            ctx.fill();
+            ctx.closePath();
+
+            /*****
+            *Ball*
+            *****/
+
+            //y = -0.02*t*t + 3.5*t; 
+            var grey = 0.01 * y + 350; //var grey = 0.1 * y + 200;
+            var shadowSize = 0.15 * y + 20; //var shadowSize = 0.3 * y + 50;
+
+            ctx.beginPath();
+            ctx.fillStyle = 'rgba(50,50,50,0.7)';
+            ctx.ellipse(200, grey, shadowSize, 20, 0, 0, Math.PI / 180, true);//Shadow Ball
+            //ctx.arc(200, grey, shadowSize, 0, Math.PI * 2, true);
+            //ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise);
+            ctx.fill();
+            ctx.closePath();
+            var correctedY = canvas.width - y;
+
+            ctx.beginPath();
+            ctx.fillStyle = 'rgba(71, 117, 255,1)';
+            //ctx.arc(200, correctedY, 50, 50, Math.PI * 2, true);//The Ball
+            ctx.ellipse(200, correctedY, 50, shadowSize - 20, 0, 0, Math.PI / 180, true);
+            ctx.fill();
+            ctx.closePath();
+            /*Original
+                    if (y < 0) {
+                        t = 0;}
+                    t += 5;*/
+
+            if (y > 400) {
+                speed -= 2;
+            }
+            else if (y < 200) {
+                speed += 2;
+            }
+
+            y += speed;
+            window.requestAnimationFrame(draw);
+        };
+
+        draw();
+
+    
+</script>
+    
+</body>
+</html>
